@@ -32,6 +32,17 @@ Keywords: .
 /* ===== IMPORT CSS FILE ===== */
 
 /* ===== START ===== */
+.data-get-Form .form-control {
+  width: 70%;
+}
+
+.data-get-Form button{
+  width: 30%;
+  height: 44px;
+}
+
+form 
+
 /* ===== END ===== */
 
 /* ===== START ===== */
