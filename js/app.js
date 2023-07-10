@@ -53,7 +53,32 @@ const userInfoE1 = document.getElementById("user-info");
 const errorAlertEl = document.getElementById("error-alert");
 const userAllPostsEl = document.getElementById("user-all-posts");
 
-// Get Data
+// get Comments
+const getPostComments = async (postId) => {
+  try {
+    const postComments = await getCommentByPostId(postId);
+
+    let markupAllComments;
+    postComments.forEach((comment) => {
+      console.log(comment);
+      markupAllComments += `
+        <div class="comment">
+          <h4 class="comment-title">
+            ${comment.name}
+          </h4>
+          <p class="comment-email mb-2">${comment.email}</p>
+          <p>
+           ${comment.body}
+          </p>
+        </div>`;
+    });
+    return markupAllComments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Get User Data
 const fetchUserData = async (email) => {
   try {
     const user = await getUser(email);
@@ -70,7 +95,7 @@ const fetchUserData = async (email) => {
     // Posts
     const userPosts = await getPostByUserId(user.id);
 
-    userPosts.forEach((post) => {
+    userPosts.forEach(async (post) => {
       const markup = ` <div class="col-lg-3 col-md-4">
             <div class="card">
               <div class="card-body user-post">
@@ -81,24 +106,16 @@ const fetchUserData = async (email) => {
                   <p class="card-text">
                     ${post.body}
                   </p>
-                  <p class="text-end user-name">User: <span>${user.name}</span></p>
+                  <p class="text-end user-name">User: <span>${
+                    user.name
+                  }</span></p>
                 </div>
 
                 <!-- Comment -->
                 <div class="post-comments" id="post-comments">
                   <h4 class="title">Comments</h4>
-                  <!-- comment -->
-                  <div class="comment">
-                    <h4 class="comment-title">
-                      quo vero reiciendis velit similique earum
-                    </h4>
-                    <p class="comment-email mb-2">Jayne_Kuhic@sydney.com</p>
-                    <p>
-                      est natus enim nihil est dolore omnis voluptatem
-                      numquam\net omnis occaecati quod ullam at\nvoluptatem
-                      error expedita pariatur\nnihil sint nostrum voluptatem
-                      reiciendis et
-                    </p>
+                  <div class="all-comment">
+                    ${await getPostComments(post.id)}
                   </div>
                 </div>
               </div>
