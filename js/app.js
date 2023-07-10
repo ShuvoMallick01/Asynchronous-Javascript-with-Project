@@ -49,18 +49,74 @@ function getCommentByPostId(postId) {
 
 const formEl = document.getElementById("inputEmail");
 const inputEmail = document.getElementById("email");
+const userInfoE1 = document.getElementById("user-info");
+const errorAlertEl = document.getElementById("error-alert");
+const userAllPostsEl = document.getElementById("user-all-posts");
 
+// Get Data
 const fetchUserData = async (email) => {
   try {
-    const data = await getUser(email);
-    console.log(data);
+    const user = await getUser(email);
+    const markup = `
+    <ul class="list-group pb-5">
+       <li class="list-group-item">Name: ${user.name}</li>
+       <li class="list-group-item">Username: ${user.username}</li>
+       <li class="list-group-item">Email: ${user.email}</li>
+       <li class="list-group-item">Phone: ${user.phone}</li>
+       <li class="list-group-item">Address: ${user.address.street}, ${user.address.suite}, ${user.address.city}</li>
+    </ul>`;
+    userInfoE1.innerHTML = markup;
+
+    // Posts
+    const userPosts = await getPostByUserId(user.id);
+
+    userPosts.forEach((post) => {
+      const markup = ` <div class="col-lg-3 col-md-4">
+            <div class="card">
+              <div class="card-body user-post">
+                <!-- Post Contents -->
+                <div class="post-contents">
+                  <h4 class="title">Post ${post.id}</h4>
+                  <h5 class="card-title">${post.title}</h5>
+                  <p class="card-text">
+                    ${post.body}
+                  </p>
+                  <p class="text-end user-name">User: <span>${user.name}</span></p>
+                </div>
+
+                <!-- Comment -->
+                <div class="post-comments" id="post-comments">
+                  <h4 class="title">Comments</h4>
+                  <!-- comment -->
+                  <div class="comment">
+                    <h4 class="comment-title">
+                      quo vero reiciendis velit similique earum
+                    </h4>
+                    <p class="comment-email mb-2">Jayne_Kuhic@sydney.com</p>
+                    <p>
+                      est natus enim nihil est dolore omnis voluptatem
+                      numquam\net omnis occaecati quod ullam at\nvoluptatem
+                      error expedita pariatur\nnihil sint nostrum voluptatem
+                      reiciendis et
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+
+      userAllPostsEl.innerHTML += markup;
+    });
   } catch (error) {
-    console.log(error);
+    const markup = `<div class="alert alert-warning" id="error-alert" role="alert">
+              ${error}
+            </div>`;
+    userInfoE1.innerHTML = markup;
   }
 };
 
+// Main Function
 formEl.addEventListener("submit", (e) => {
   e.preventDefault();
-
   fetchUserData(inputEmail.value);
 });

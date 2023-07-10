@@ -41,6 +41,65 @@ Keywords: .
   height: 44px;
 }
 
+/* POST */
+.user-post .title {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.user-post .card-title {
+  font-size: 15px !important;
+  color: rgb(59, 59, 59);
+  font-weight: 600;
+}
+
+.user-post .card-text {
+  font-size: 13px !important;
+  margin-bottom: 2px;
+  font-weight: 400;
+}
+
+.user-post .user-name {
+  font-size: 13px;
+  margin-bottom: 0px;
+}
+
+/* Comments */
+.post-comments {
+  border-top: 1px solid rgba(128, 128, 128, 0.342);
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.post-comments .title {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.post-comments .comment {
+  border: 1px solid rgba(128, 128, 128, 0.342);
+  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.post-comments .comment-title {
+  font-size: 13px !important;
+  color: rgb(59, 59, 59);
+  font-weight: 700;
+  margin-bottom: 0px;
+}
+
+.post-comments .comment-email {
+  font-size: 12px;
+}
+
+.post-comments p {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
 /* ===== END ===== */
 
 /* ===== START ===== */
