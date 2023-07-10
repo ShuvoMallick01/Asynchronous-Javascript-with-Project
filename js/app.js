@@ -34,15 +34,33 @@ function getCommentByPostId(postId) {
   else return Promise.resolve(commentList);
 }
 
-getUser("Shanna@melissa.tv")
-  .then((user) => {
-    console.log(user);
-    return getCommentByPostId(user.id);
-  })
-  .then((posts) => {
-    console.log(posts);
+// getUser("Shanna@melissa.tv")
+//   .then((user) => {
+//     console.log(user);
+//     return getCommentByPostId(user.id);
+//   })
+//   .then((posts) => {
+//     console.log(posts);
 
-    return getCommentByPostId(posts[0].id);
-  })
-  .then((comments) => console.log(comments))
-  .catch((error) => console.log(error));
+//     return getCommentByPostId(posts[0].id);
+//   })
+//   .then((comments) => console.log(comments))
+//   .catch((error) => console.log(error));
+
+const formEl = document.getElementById("inputEmail");
+const inputEmail = document.getElementById("email");
+
+const fetchUserData = async (email) => {
+  try {
+    const data = await getUser(email);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+formEl.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetchUserData(inputEmail.value);
+});
