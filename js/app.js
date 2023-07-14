@@ -53,31 +53,6 @@ const userInfoE1 = document.getElementById("user-info");
 const errorAlertEl = document.getElementById("error-alert");
 const userAllPostsEl = document.getElementById("user-all-posts");
 
-// get Comments
-const getPostComments = async (postId) => {
-  try {
-    const postComments = await getCommentByPostId(postId);
-
-    let markupAllComments;
-    postComments.forEach((comment) => {
-      console.log(comment);
-      markupAllComments += `
-        <div class="comment">
-          <h4 class="comment-title">
-            ${comment.name}
-          </h4>
-          <p class="comment-email mb-2">${comment.email}</p>
-          <p>
-           ${comment.body}
-          </p>
-        </div>`;
-    });
-    return markupAllComments;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 // Get User Data
 const fetchUserData = async (email) => {
   try {
@@ -92,7 +67,7 @@ const fetchUserData = async (email) => {
     </ul>`;
     userInfoE1.innerHTML = markup;
 
-    // Posts
+    // Get Posts
     const userPosts = await getPostByUserId(user.id);
 
     userPosts.forEach(async (post) => {
@@ -132,7 +107,32 @@ const fetchUserData = async (email) => {
   }
 };
 
-// Main Function
+// Get Comments
+const getPostComments = async (postId) => {
+  try {
+    const postComments = await getCommentByPostId(postId);
+
+    let markupAllComments;
+    postComments.forEach((comment) => {
+      console.log(comment);
+      markupAllComments += `
+        <div class="comment bg-light">
+          <h4 class="comment-title">
+            ${comment.name}
+          </h4>
+          <p class="comment-email mb-2">${comment.email}</p>
+          <p>
+           ${comment.body}
+          </p>
+        </div>`;
+    });
+    return markupAllComments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Call All Function
 formEl.addEventListener("submit", (e) => {
   e.preventDefault();
   fetchUserData(inputEmail.value);
