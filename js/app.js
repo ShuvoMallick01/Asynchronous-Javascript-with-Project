@@ -1,10 +1,4 @@
-// const users = require("../db/users.json");
-
-// Requirements
-// -------------
-// Get user information
-// get the all post
-// Get single Post
+// Requirements: // Get user information // get the all post // Get single Post
 
 // ==============================
 // USING PROMISE FOR GETTING DATA
@@ -34,24 +28,36 @@ function getCommentByPostId(postId) {
   else return Promise.resolve(commentList);
 }
 
-// getUser("Shanna@melissa.tv")
-//   .then((user) => {
-//     console.log(user);
-//     return getCommentByPostId(user.id);
-//   })
-//   .then((posts) => {
-//     console.log(posts);
-
-//     return getCommentByPostId(posts[0].id);
-//   })
-//   .then((comments) => console.log(comments))
-//   .catch((error) => console.log(error));
-
 const formEl = document.getElementById("inputEmail");
 const inputEmail = document.getElementById("email");
 const userInfoE1 = document.getElementById("user-info");
 const errorAlertEl = document.getElementById("error-alert");
 const userAllPostsEl = document.getElementById("user-all-posts");
+
+// Get Comments
+const getPostComments = async (postId) => {
+  try {
+    const postComments = await getCommentByPostId(postId);
+
+    let markupAllComments = "";
+    postComments.forEach((comment) => {
+      // console.log(comment);
+      markupAllComments += `
+        <div class="comment bg-light">
+          <h4 class="comment-title">
+            ${comment.name}
+          </h4>
+          <p class="comment-email mb-2">${comment.email}</p>
+          <p>
+           ${comment.body}
+          </p>
+        </div>`;
+    });
+    return markupAllComments;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // Get User Data
 const fetchUserData = async (email) => {
@@ -70,7 +76,8 @@ const fetchUserData = async (email) => {
     // Get Posts
     const userPosts = await getPostByUserId(user.id);
 
-    userPosts.forEach(async (post) => {
+    for (let post of userPosts) {
+      const postCommentsMarkup = await getPostComments(post.id);
       const markup = ` <div class="col-lg-3 col-md-4">
             <div class="card">
               <div class="card-body user-post">
@@ -81,16 +88,14 @@ const fetchUserData = async (email) => {
                   <p class="card-text">
                     ${post.body}
                   </p>
-                  <p class="text-end user-name">User: <span>${
-                    user.name
-                  }</span></p>
+                  <p class="text-end user-name">User: <span>${user.name}</span></p>
                 </div>
 
                 <!-- Comment -->
                 <div class="post-comments" id="post-comments">
                   <h4 class="title">Comments</h4>
                   <div class="all-comment">
-                    ${await getPostComments(post.id)}
+                    ${postCommentsMarkup}
                   </div>
                 </div>
               </div>
@@ -98,7 +103,7 @@ const fetchUserData = async (email) => {
           </div>`;
 
       userAllPostsEl.innerHTML += markup;
-    });
+    }
   } catch (error) {
     const markup = `<div class="alert alert-warning" id="error-alert" role="alert">
               ${error}
@@ -107,30 +112,7 @@ const fetchUserData = async (email) => {
   }
 };
 
-// Get Comments
-const getPostComments = async (postId) => {
-  try {
-    const postComments = await getCommentByPostId(postId);
-
-    let markupAllComments;
-    postComments.forEach((comment) => {
-      console.log(comment);
-      markupAllComments += `
-        <div class="comment bg-light">
-          <h4 class="comment-title">
-            ${comment.name}
-          </h4>
-          <p class="comment-email mb-2">${comment.email}</p>
-          <p>
-           ${comment.body}
-          </p>
-        </div>`;
-    });
-    return markupAllComments;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// Sincere@april.biz
 
 // Call All Function
 formEl.addEventListener("submit", (e) => {
